@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="p-5 rounded-4 shadow-sm text-white" style="background: var(--primary-gradient);">
+            <div class="py-5">
+                <h1 class="display-4 fw-800 mb-3">發現下一部神作</h1>
+                <p class="fs-5 opacity-75 mb-4">我們為您篩選全網最高評價的中文漫畫，讓每一次閱讀都值得。</p>
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('comic.category', category_name='熱血') }}" class="btn btn-light text-primary fw-bold px-4">熱門推薦</a>
+                    <a href="#leaderboard" class="btn btn-outline-light px-4">排行榜單</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-5">
+    <!-- 推薦漫畫區 -->
+    <div class="col-lg-8">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <h2 class="fw-800 mb-0">✨ 編輯精選</h2>
+            <a href="#" class="text-primary text-decoration-none small fw-bold">查看全部 &rarr;</a>
+        </div>
+        
+        <div class="row g-4">
+            {% for comic in recommended %}
+            <div class="col-md-6">
+                <div class="card h-100 p-3">
+                    <div class="d-flex gap-3 h-100">
+                        <div class="comic-cover-placeholder comic-cover-small flex-shrink-0" style="width: 100px; height: 140px;">
+                            {{ comic.title[0] }}
+                        </div>
+                        <div class="d-flex flex-column justify-content-between">
+                            <div>
+                                <h5 class="fw-bold mb-1">{{ comic.title }}</h5>
+                                <div class="mb-2">
+                                    <span class="badge bg-light text-primary p-1 px-2 small">{{ comic.category }}</span>
+                                </div>
+                                <p class="small text-muted mb-0" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                                    {{ comic.description }}
+                                </p>
+                            </div>
+                            <a href="{{ url_for('comic.detail', comic_id=comic.id) }}" class="text-primary text-decoration-none small fw-bold mt-2">閱讀詳情 &rsaquo;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- 排行榜區 -->
+    <div class="col-lg-4" id="leaderboard">
+        <h2 class="fw-800 mb-4">🏆 本週榜單</h2>
+        <div class="card p-2 border-0 shadow-sm bg-white">
+            {% for comic in leaderboard %}
+            <div class="d-flex align-items-center p-3 {{ 'border-bottom' if not loop.last }}">
+                <div class="fs-3 fw-800 me-4 text-light" style="width: 30px;">{{ loop.index }}</div>
+                <div class="flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-dark">{{ comic.title }}</h6>
+                    <small class="text-muted">{{ comic.category }} · <span class="text-warning">★ {{ comic.rating }}</span></small>
+                </div>
+                <a href="{{ url_for('comic.detail', comic_id=comic.id) }}" class="btn btn-sm btn-light rounded-circle">
+                    &rsaquo;
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

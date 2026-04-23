@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row g-5 mb-5">
+    <!-- 左側詳情 -->
+    <div class="col-lg-8">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}" class="text-decoration-none">主頁</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('comic.category', category_name=comic.category) }}" class="text-decoration-none">{{ comic.category }}</a></li>
+                <li class="breadcrumb-item active text-muted">{{ comic.title }}</li>
+            </ol>
+        </nav>
+
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <h1 class="fw-800 display-4 mb-0">{{ comic.title }}</h1>
+            <span class="badge {{ 'bg-success' if comic.status == '已完結' else 'bg-warning text-dark' }} fs-6">
+                {{ comic.status }}
+            </span>
+        </div>
+
+        <div class="d-flex gap-4 mb-5 p-4 bg-white rounded-4 shadow-sm border border-light">
+            <div class="text-center border-end pe-4">
+                <div class="text-muted small fw-bold mb-1">評分</div>
+                <div class="fs-3 fw-800 text-warning">★ {{ comic.rating }}</div>
+            </div>
+            <div class="text-center border-end pe-4">
+                <div class="text-muted small fw-bold mb-1">類型</div>
+                <div class="fs-5 fw-bold text-primary">{{ comic.category }}</div>
+            </div>
+            <div class="text-center">
+                <div class="text-muted small fw-bold mb-1">評論數</div>
+                <div class="fs-5 fw-bold text-dark">{{ reviews|length }} 則</div>
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h3 class="fw-800 mb-3">故事大綱</h3>
+            <div class="fs-5 text-muted lh-lg" style="white-space: pre-line;">
+                {{ comic.description or '暫無介紹。' }}
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h3 class="fw-800 mb-4">相關推薦</h3>
+            <div class="row g-3">
+                {% for s in similar %}
+                <div class="col-6 col-md-3">
+                    <a href="{{ url_for('comic.detail', comic_id=s.id) }}" class="text-decoration-none">
+                        <div class="comic-cover-placeholder comic-cover-small mb-2 shadow-sm" style="height: 150px;">
+                            {{ s.title[0] }}
+                        </div>
+                        <p class="small fw-bold text-dark text-truncate mb-0">{{ s.title }}</p>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- 右側評論區 -->
+    <div class="col-lg-4">
+        <div class="sticky-top" style="top: 100px;">
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <h4 class="fw-800 mb-4">讀者留言</h4>
+                
+                <form action="{{ url_for('review.add_review', comic_id=comic.id) }}" method="post" class="mb-4">
+                    <div class="mb-3">
+                        <input type="text" class="form-control border-0 bg-light p-3" name="nickname" placeholder="您的稱呼" required>
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control border-0 bg-light p-3" name="content" rows="4" placeholder="分享您的讀後感..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold">發佈評論</button>
+                </form>
+
+                <div class="review-list">
+                    {% for review in reviews %}
+                    <div class="p-3 bg-light rounded-3 mb-3 border-start border-primary border-4">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="small fw-bold">{{ review.nickname }}</span>
+                            <span class="text-muted" style="font-size: 0.75rem;">{{ review.created_at[:10] }}</span>
+                        </div>
+                        <p class="small mb-0 text-dark">{{ review.content }}</p>
+                    </div>
+                    {% else %}
+                    <p class="text-center text-muted py-4">成為第一個評論的人吧！</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

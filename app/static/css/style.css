@@ -1,0 +1,108 @@
+/* app/static/css/style.css */
+:root {
+    --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    --bg-color: #fcfcfd;
+    --card-bg: #ffffff;
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
+    --accent: #f59e0b;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* 頂級導覽列 */
+.navbar {
+    background: #ffffff !important;
+    border-bottom: 1px solid #f3f4f6;
+    padding: 1rem 0;
+}
+.navbar-brand {
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.5rem;
+}
+.nav-link {
+    color: var(--text-main) !important;
+    margin: 0 0.5rem;
+    transition: color 0.3s;
+}
+.nav-link:hover {
+    color: #4f46e5 !important;
+}
+
+/* 封面替代盒 (代替圖片) */
+.comic-cover-placeholder {
+    aspect-ratio: 2/3;
+    background: var(--primary-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 700;
+    border-radius: 12px;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.comic-cover-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.2) 100%);
+}
+
+.comic-cover-small {
+    font-size: 1.5rem;
+    border-radius: 8px;
+}
+
+/* 卡片美化 */
+.card {
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+}
+
+.badge {
+    padding: 0.5em 1em;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* 標題字體 */
+h1, h2, h3, h4, h5 {
+    letter-spacing: -0.025em;
+}
+
+/* 按鈕 */
+.btn-primary {
+    background: var(--primary-gradient);
+    border: none;
+    border-radius: 10px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+}
+.btn-primary:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+/* 頁尾 */
+.footer {
+    background: #ffffff;
+    border-top: 1px solid #f3f4f6;
+    color: var(--text-muted);
+}
